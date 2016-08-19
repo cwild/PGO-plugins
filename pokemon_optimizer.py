@@ -13,10 +13,11 @@ class PokemonOptimizer(_PokemonOptimizer):
         """
         params = criteria.get('params', {})
         limit = tuple(params.get('minimum', [0]))
+        limited = set(params.get('pokemon', []))
 
         sorted_family = self.get_sorted_family(family, criteria)
 
-        return [p for p in sorted_family if self.get_rank(p, criteria) > limit]
+        return [p for p in sorted_family if (not limited or p.name in limited) and (self.get_rank(p, criteria) > limit)]
 
     def get_family_optimized(self, family_id, family):
 
